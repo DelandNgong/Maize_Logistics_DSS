@@ -6,19 +6,19 @@ import math
 # 1. System Configuration & Setup
 st.set_page_config(page_title="Maize Logistics DSS", layout="wide")
 
-# Load the trained model (Ensure this file exists in your results/ folder)
+# Load the trained model
 MODEL_PATH = 'results/maize_yield_model.pkl' 
 try:
     model = joblib.load(MODEL_PATH)
 except Exception as e:
     st.error(f"Could not load model: {e}. Please run src/train_model.py first.")
 
-# --- 2. User Interface Header ---
+#2. User Interface Header
 st.title("🌽 Maize Harvest Logistics DSS")
 st.markdown("### Decision Support for Fleet Optimization")
 st.info("This system predicts maize yield and recommends truck rentals based on a Capacity Gap Analysis.")
 
-# --- 3. Sidebar: Environmental Inputs (Data Component) ---
+#3. Sidebar: Environmental Inputs (Data Component)
 st.sidebar.header("1. Farm & Environmental Data")
 
 # Numeric inputs for the predictive model
@@ -34,8 +34,8 @@ irrigation = st.sidebar.selectbox("Irrigation Used?", [True, False])
 soil_type = st.sidebar.selectbox("Soil Type", ["Clay", "Loam", "Sandy", "Silt", "Chalky", "Peaty"])
 weather = st.sidebar.selectbox("Weather Condition", ["Cloudy", "Rainy", "Sunny"])
 
-# --- 4. Main Page: Logistic Inputs (Decision Maker Variables) ---
-st.header("2. Logistics & Fleet Capacity")
+#4. Main Page: Logistic Inputs (Decision Maker Variables)
+st.header("Logistics & Fleet Capacity")
 col1, col2 = st.columns(2)
 
 with col1:
@@ -43,10 +43,9 @@ with col1:
 with col2:
     truck_capacity = st.number_input("Capacity per Truck (Tons)", min_value=1, value=10, step=1)
 
-# --- 5. Decision Engine Logic ---
+#5. Decision Engine Logic
 if st.button("Generate Logistic Recommendation"):
     # Create the feature vector for the model
-    # Note: Column names must match the training set (maize_cleaned.csv) exactly
     raw_input = {
         'Rainfall_mm': [float(rainfall)],
         'Temperature_Celsius': [float(temp)],
@@ -80,7 +79,7 @@ if st.button("Generate Logistic Recommendation"):
         # Recommendation: Rent additional trucks if yield exceeds capacity
         trucks_to_rent = math.ceil(capacity_gap / truck_capacity) if capacity_gap > 0 else 0
 
-        # --- 6. Results Display (System Output) ---
+        #6. Results Display (System Output)
         st.divider()
         st.subheader("Decision Support Summary")
         
