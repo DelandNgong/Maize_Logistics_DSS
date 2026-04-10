@@ -12,7 +12,6 @@ def calculate_logistics(input_data, owned_trucks, truck_capacity):
     model = joblib.load(MODEL_PATH)
     
     # 2. Predict Yield (Tons per Hectare)
-    # input_data must be a DataFrame with the same columns as your training data
     yield_per_hectare = model.predict(input_data)[0]
     
     # 3. Capacity Gap Analysis

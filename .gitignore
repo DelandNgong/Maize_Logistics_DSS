@@ -1,4 +1,3 @@
 data/dataset.csv
-results/*.pkl
 venv/
 __pycache__/
